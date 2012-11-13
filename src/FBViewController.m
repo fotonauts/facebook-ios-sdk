@@ -124,7 +124,7 @@
     if ([viewController respondsToSelector:@selector(presentViewController:animated:completion:)]) {
         [viewController presentViewController:self animated:animated completion:nil];
     } else {
-        [viewController presentModalViewController:self animated:animated];
+        [viewController presentViewController:self animated:animated completion:nil];
     }
     
     // Set this here because we always revert to NO in viewDidLoad.
