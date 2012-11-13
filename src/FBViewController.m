@@ -292,7 +292,7 @@
         if ([presentingViewController respondsToSelector:@selector(dismissViewControllerAnimated:completion:)]) {
             [presentingViewController dismissViewControllerAnimated:self.dismissAnimated completion:nil];
         } else {
-            [presentingViewController dismissModalViewControllerAnimated:self.dismissAnimated];
+            [presentingViewController dismissViewControllerAnimated:self.dismissAnimated completion:nil];
         }
         
         if (self.handler) {
@@ -311,7 +311,7 @@
         if ([presentingViewController respondsToSelector:@selector(dismissViewControllerAnimated:completion:)]) {
             [presentingViewController dismissViewControllerAnimated:self.dismissAnimated completion:nil];
         } else {
-            [presentingViewController dismissModalViewControllerAnimated:self.dismissAnimated];
+            [presentingViewController dismissViewControllerAnimated:self.dismissAnimated completion:nil];
         }
         
         if (self.handler) {
