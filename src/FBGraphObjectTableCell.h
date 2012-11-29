@@ -16,7 +16,24 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FBGraphObjectTableCell : UITableViewCell
+@protocol FBGraphObjectTableCell <NSObject>
+
+@property (copy, nonatomic) NSString *title;
+@property (copy, nonatomic) NSString *titleSuffix;
+@property (nonatomic) BOOL boldTitle;
+@property (nonatomic) BOOL boldTitleSuffix;
+
+@property (copy, nonatomic) NSString *subtitle;
+@property (retain, nonatomic) UIImage *picture;
+
++ (CGFloat)rowHeight;
+
+- (void)startAnimatingActivityIndicator;
+- (void)stopAnimatingActivityIndicator;
+
+@end
+
+@interface FBGraphObjectTableCell : UITableViewCell <FBGraphObjectTableCell>
 
 // We allow the title to be split into two parts, with one (or both) optionally
 // bolded. titleSuffix will be appended to the end of title with a space in between.

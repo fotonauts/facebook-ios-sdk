@@ -20,6 +20,7 @@
 @protocol FBGraphObjectViewControllerDelegate;
 @protocol FBGraphObjectSelectionQueryDelegate;
 @protocol FBGraphObjectDataSourceDataNeededDelegate;
+@protocol FBGraphObjectTableCell;
 @class FBGraphObjectTableCell;
 
 @interface FBGraphObjectTableDataSource : NSObject<UITableViewDataSource>
@@ -84,8 +85,11 @@
                 filterIncludesItem:(id<FBGraphObject>)item;
 
 - (void)graphObjectTableDataSource:(FBGraphObjectTableDataSource*)dataSource
-                customizeTableCell:(FBGraphObjectTableCell*)cell;
-                
+                customizeTableCell:(UITableViewCell<FBGraphObjectTableCell>*)cell;
+
+- (UITableViewCell<FBGraphObjectTableCell>*)graphObjectTableDataSource:(FBGraphObjectTableDataSource *)dataSource
+                               cellWithReuseIdentifier:(NSString *)reuseIdentifier;
+
 @end
 
 @protocol FBGraphObjectSelectionQueryDelegate <NSObject>
