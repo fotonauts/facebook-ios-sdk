@@ -76,6 +76,7 @@ static int const FBTokenRetryExtendSeconds = 60 * 60;           // hour
 
 // module scoped globals
 static NSString *g_defaultAppID = nil;
+static NSString *g_defaultURLSchemeSuffix = nil;
 static FBSession *g_activeSession = nil;
 
 @interface FBSession () <FBLoginDialogDelegate> {
@@ -226,6 +227,9 @@ static FBSession *g_activeSession = nil;
         }
         if (!permissions) {
             permissions = [NSArray array];
+        }
+        if (!urlSchemeSuffix) {
+            urlSchemeSuffix = [FBSession defaultURLSchemeSuffix];
         }
         if (!tokenCachingStrategy) {
             tokenCachingStrategy = [FBSessionTokenCachingStrategy defaultInstance];
@@ -620,6 +624,20 @@ static FBSession *g_activeSession = nil;
         g_defaultAppID = [bundle objectForInfoDictionaryKey:FBPLISTAppIDKey];
     }
     return g_defaultAppID;
+}
+
++ (void)setDefaultURLSchemeSuffix:(NSString*)urlSchemeSuffix {
+    NSString *oldValue = g_defaultURLSchemeSuffix;
+    g_defaultURLSchemeSuffix = [urlSchemeSuffix copy];
+    [oldValue release];
+}
+
++ (NSString*)defaultURLSchemeSuffix {
+//    if (!g_defaultURLSchemeSuffix) {
+//        NSBundle* bundle = [NSBundle mainBundle];
+//        g_defaultURLSchemeSuffix = [bundle objectForInfoDictionaryKey:FBPLISTAppIDKey];
+//    }
+    return g_defaultURLSchemeSuffix;
 }
 
 #pragma mark -
