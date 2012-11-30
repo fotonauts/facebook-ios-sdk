@@ -273,10 +273,8 @@ static const NSInteger kMinimumCountToCollate = 6;
     UITableViewCell<FBGraphObjectTableCell>* cell =
     (UITableViewCell<FBGraphObjectTableCell>*)[tableView dequeueReusableCellWithIdentifier:cellKey];
   
-    if (!cell) {
-        if ([self.controllerDelegate respondsToSelector:@selector(graphObjectTableDataSource:cellWithReuseIdentifier:)]) {
-            cell = [self.controllerDelegate graphObjectTableDataSource:self cellWithReuseIdentifier:cellKey];
-        }
+    if (!cell && [self.controllerDelegate respondsToSelector:@selector(graphObjectTableDataSource:cellWithReuseIdentifier:)]) {
+        cell = [self.controllerDelegate graphObjectTableDataSource:self cellWithReuseIdentifier:cellKey];
     }
     if (!cell) {
         cell = [[FBGraphObjectTableCell alloc]
