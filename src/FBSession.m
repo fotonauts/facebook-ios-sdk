@@ -620,10 +620,6 @@ static FBSession *g_activeSession = nil;
 }
 
 + (NSString*)defaultURLSchemeSuffix {
-//    if (!g_defaultURLSchemeSuffix) {
-//        NSBundle* bundle = [NSBundle mainBundle];
-//        g_defaultURLSchemeSuffix = [bundle objectForInfoDictionaryKey:FBPLISTAppIDKey];
-//    }
     return g_defaultURLSchemeSuffix;
 }
 
