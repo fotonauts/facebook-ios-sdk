@@ -223,13 +223,13 @@ static FBSession *g_activeSession = nil;
 
         // setup values where nil implies a default
         if (!appID) {
-            appID = [sekf.class defaultAppID];
+            appID = [self.class defaultAppID];
         }
         if (!permissions) {
             permissions = [NSArray array];
         }
         if (!urlSchemeSuffix) {
-            urlSchemeSuffix = [sekf.class defaultURLSchemeSuffix];
+            urlSchemeSuffix = [self.class defaultURLSchemeSuffix];
         }
         if (!tokenCachingStrategy) {
             tokenCachingStrategy = [FBSessionTokenCachingStrategy defaultInstance];
