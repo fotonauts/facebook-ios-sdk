@@ -173,7 +173,7 @@ static const NSInteger kMinimumCountToCollate = 6;
 - (void)bindTableView:(UITableView *)tableView
 {
     tableView.dataSource = self;
-    tableView.rowHeight = [FBGraphObjectTableCell rowHeight];
+    tableView.rowHeight = [[self cellWithTableView:tableView].class rowHeight];
 }
 
 - (void)cancelPendingRequests
