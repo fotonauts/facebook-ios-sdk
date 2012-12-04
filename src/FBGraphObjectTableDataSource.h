@@ -86,7 +86,8 @@
                 filterIncludesItem:(id<FBGraphObject>)item;
 
 - (void)graphObjectTableDataSource:(FBGraphObjectTableDataSource*)dataSource
-                customizeTableCell:(UITableViewCell<FBGraphObjectTableCell>*)cell;
+                customizeTableCell:(UITableViewCell<FBGraphObjectTableCell>*)cell
+                            ofItem:(id<FBGraphObject>)graphObject;
 
 - (UITableViewCell<FBGraphObjectTableCell>*)graphObjectTableDataSource:(FBGraphObjectTableDataSource *)dataSource
                                cellWithReuseIdentifier:(NSString *)reuseIdentifier;
