@@ -25,7 +25,6 @@ static const NSInteger kMinimumCountToCollate = 6;
 
 @interface FBGraphObjectTableDataSource ()
 
-@property (nonatomic, retain) NSArray *data;
 @property (nonatomic, retain) NSArray *indexKeys;
 @property (nonatomic, retain) NSDictionary *indexMap;
 @property (nonatomic, retain) NSMutableSet *pendingURLConnections;
