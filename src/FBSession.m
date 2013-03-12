@@ -178,9 +178,6 @@ static FBSession *g_activeSession = nil;
         if (!permissions) {
             permissions = [NSArray array];
         }
-        if (!urlSchemeSuffix) {
-            urlSchemeSuffix = [self.class defaultURLSchemeSuffix];
-        }
         if (!tokenCachingStrategy) {
             tokenCachingStrategy = [FBSessionTokenCachingStrategy defaultInstance];
         }

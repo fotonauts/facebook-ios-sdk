@@ -703,9 +703,6 @@ __attribute__((deprecated));
  */
 + (void)setDefaultAppID:(NSString*)appID;
 
-+ (void)setDefaultURLSchemeSuffix:(NSString*)urlSchemeSuffix;
-+ (NSString*)defaultURLSchemeSuffix;
-
 /*!
  @method
  
