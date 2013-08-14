@@ -865,7 +865,7 @@ static FBSession *g_activeSession = nil;
     [self authorizeWithPermissions:(NSArray*)permissions
                    defaultAudience:audience
                     integratedAuth:tryIntegratedAuth
-                         FBAppAuth:NO
+                         FBAppAuth:tryFacebookLogin
                         safariAuth:tryFacebookLogin
                           fallback:tryFallback
                      isReauthorize:isReauthorize
