@@ -6,7 +6,7 @@
  * You may obtain a copy of the License at
  *
  *    http://www.apache.org/licenses/LICENSE-2.0
- 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,8 +15,9 @@
  */
 
 #import "FBGraphObjectTableDataSource.h"
-#import "FBGraphObjectTableCell.h"
+
 #import "FBGraphObject.h"
+#import "FBGraphObjectTableCell.h"
 #import "FBURLConnection.h"
 #import "FBUtility.h"
 
@@ -73,14 +74,14 @@ static const NSInteger kMinimumCountToCollate = 6;
 - (id)init
 {
     self = [super init];
-    
+
     if (self) {
         NSMutableSet *pendingURLConnections = [[NSMutableSet alloc] init];
         self.pendingURLConnections = pendingURLConnections;
         [pendingURLConnections release];
         self.expectingMoreGraphObjects = YES;
     }
-    
+
     return self;
 }
 
@@ -97,7 +98,7 @@ static const NSInteger kMinimumCountToCollate = 6;
     [_indexMap release];
     [_pendingURLConnections release];
     [_sortDescriptors release];
-    
+
     [super dealloc];
 }
 
@@ -107,7 +108,7 @@ static const NSInteger kMinimumCountToCollate = 6;
 {
     // Start with custom fields.
     NSMutableSet *nameSet = [[NSMutableSet alloc] initWithSet:customFields];
-    
+
     // Iterate through varargs after the initial set, and add them
     id vaName;
     va_list vaArguments;
@@ -116,28 +117,28 @@ static const NSInteger kMinimumCountToCollate = 6;
         [nameSet addObject:vaName];
     }
     va_end(vaArguments);
-    
+
     // Add fields needed for data source functionality.
     if (self.groupByField) {
         [nameSet addObject:self.groupByField];
     }
-    
+
     // get a stable order for our fields, because we use the resulting URL as a cache ID
     NSMutableArray *sortedFields = [[nameSet allObjects] mutableCopy];
     [sortedFields sortUsingSelector:@selector(caseInsensitiveCompare:)];
-    
+
     [nameSet release];
-    
+
     // Build the comma-separated string
     NSMutableString *fields = [[[NSMutableString alloc] init] autorelease];
-    
+
     for (NSString *field in sortedFields) {
         if ([fields length]) {
             [fields appendString:@","];
         }
         [fields appendString:field];
     }
-    
+
     [sortedFields release];
     return fields;
 }
@@ -201,28 +202,28 @@ static const NSInteger kMinimumCountToCollate = 6;
     NSInteger objectsShown = 0;
     NSMutableDictionary *indexMap = [[[NSMutableDictionary alloc] init] autorelease];
     NSMutableArray *indexKeys = [[[NSMutableArray alloc] init] autorelease];
-    
+
     for (FBGraphObject *item in self.data) {
         if (![self filterIncludesItem:item]) {
             continue;
         }
-        
+
         NSString *key = [self indexKeyOfItem:item];
         NSMutableArray *existingSection = [indexMap objectForKey:key];
         NSMutableArray *section = existingSection;
-        
+
         if (!section) {
             section = [[[NSMutableArray alloc] init] autorelease];
         }
         [section addObject:item];
-        
+
         if (!existingSection) {
             [indexMap setValue:section forKey:key];
             [indexKeys addObject:key];
         }
         objectsShown++;
     }
-    
+
     if (self.sortDescriptors) {
         for (NSString *key in indexKeys) {
             [[indexMap objectForKey:key] sortUsingDescriptors:self.sortDescriptors];
@@ -231,7 +232,7 @@ static const NSInteger kMinimumCountToCollate = 6;
     if (!self.useCollation) {
         [indexKeys sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
     }
-    
+
     self.showSections = objectsShown >= kMinimumCountToCollate;
     self.indexKeys = indexKeys;
     self.indexMap = indexMap;
@@ -245,7 +246,7 @@ static const NSInteger kMinimumCountToCollate = 6;
           @selector(graphObjectTableDataSource:filterIncludesItem:)]) {
         return YES;
     }
-    
+
     return [self.controllerDelegate graphObjectTableDataSource:self
                                             filterIncludesItem:item];
 }
@@ -269,8 +270,8 @@ static const NSInteger kMinimumCountToCollate = 6;
 - (UITableViewCell<FBGraphObjectTableCell>*)cellWithTableView:(UITableView *)tableView
 {
     static NSString * const cellKey = @"fbTableCell";
-    UITableViewCell<FBGraphObjectTableCell>* cell =
-    (UITableViewCell<FBGraphObjectTableCell>*)[tableView dequeueReusableCellWithIdentifier:cellKey];
+    FBGraphObjectTableCell *cell =
+    (FBGraphObjectTableCell*)[tableView dequeueReusableCellWithIdentifier:cellKey];
   
     if (!cell && [self.controllerDelegate respondsToSelector:@selector(graphObjectTableDataSource:cellWithReuseIdentifier:)]) {
         cell = [self.controllerDelegate graphObjectTableDataSource:self cellWithReuseIdentifier:cellKey];
@@ -280,30 +281,30 @@ static const NSInteger kMinimumCountToCollate = 6;
                 initWithStyle:UITableViewCellStyleSubtitle
                 reuseIdentifier:cellKey];
         [cell autorelease];
-        
+
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
-    
+
     return cell;
 }
 
 - (NSString *)indexKeyOfItem:(FBGraphObject *)item
 {
     NSString *text = @"";
-    
+
     if (self.groupByField) {
         text = [item objectForKey:self.groupByField] ?: @"";
     }
-    
+
     if (self.useCollation) {
         NSInteger collationSection = [self.collation sectionForObject:item collationStringSelector:NSSelectorFromString(self.groupByField)];
         text = [[self.collation sectionTitles] objectAtIndex:collationSection];
     } else {
-        
+
         if ([text length] > 1) {
             text = [text substringToIndex:1];
         }
-        
+
         text = [text uppercaseString];
     }
     return text;
@@ -332,7 +333,7 @@ static const NSInteger kMinimumCountToCollate = 6;
     if (!sectionItems) {
         return nil;
     }
-    
+
     NSInteger sectionIndex = 0;
     if (self.useCollation) {
         sectionIndex = [self.collation.sectionTitles indexOfObject:key];
@@ -342,17 +343,17 @@ static const NSInteger kMinimumCountToCollate = 6;
     if (sectionIndex == NSNotFound) {
         return nil;
     }
-    
+
     id matchingObject = [FBUtility graphObjectInArray:sectionItems withSameIDAs:item];
     if (matchingObject == nil) {
         return nil;
     }
-    
+
     NSInteger itemIndex = [sectionItems indexOfObject:matchingObject];
     if (itemIndex == NSNotFound) {
         return nil;
     }
-    
+
     return [NSIndexPath indexPathForRow:itemIndex inSection:sectionIndex];
 }
 
@@ -367,7 +368,7 @@ static const NSInteger kMinimumCountToCollate = 6;
 - (BOOL)isActivityIndicatorIndexPath:(NSIndexPath *)indexPath {
     if ([self isLastSection:indexPath.section]) {
         NSArray *sectionItems = [self sectionItemsForSection:indexPath.section];
-        
+
         if (indexPath.row == sectionItems.count) {
             // Last section has one more row that items if we are expecting more objects.
             return YES;
@@ -406,27 +407,27 @@ static const NSInteger kMinimumCountToCollate = 6;
             [self addOrRemovePendingConnection:connection];
             if (!error) {
                 image = [UIImage imageWithData:data];
-                
+
                 NSIndexPath *indexPath = [self indexPathForItem:item];
                 if (indexPath) {
-                    UITableViewCell<FBGraphObjectTableCell>* cell =
-                    (UITableViewCell<FBGraphObjectTableCell>*)[tableView cellForRowAtIndexPath:indexPath];
-                    
+                    FBGraphObjectTableCell *cell =
+                    (FBGraphObjectTableCell*)[tableView cellForRowAtIndexPath:indexPath];
+
                     if (cell) {
                         cell.picture = image;
                     }
                 }
             }
         };
-        
+
         FBURLConnection *connection = [[[FBURLConnection alloc]
                                         initWithURL:[NSURL URLWithString:urlString]
                                         completionHandler:handler]
                                        autorelease];
-        
+
         [self addOrRemovePendingConnection:connection];
     }
-    
+
     // If the picture had not been fetched yet by this object, but is cached in the
     // URL cache, we can complete synchronously above.  In this case, we will not
     // find the cell in the table because we are in the process of creating it. We can
@@ -434,7 +435,7 @@ static const NSInteger kMinimumCountToCollate = 6;
     if (image) {
         return image;
     }
-    
+
     return self.defaultPicture;
 }
 
@@ -465,7 +466,7 @@ static const NSInteger kMinimumCountToCollate = 6;
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     NSArray *sectionItems = [self sectionItemsForSection:section];
-    
+
     NSUInteger count = [sectionItems count];
     // If we are expecting more objects to be loaded via paging, add 1 to the
     // row count for the last section.
@@ -482,7 +483,7 @@ static const NSInteger kMinimumCountToCollate = 6;
     if (!self.showSections) {
         return nil;
     }
-    
+
     NSArray *sectionItems = [self sectionItemsForSection:section];
     return sectionItems.count > 0 ? [self titleForSection:section] : nil;
 }
@@ -501,7 +502,7 @@ static const NSInteger kMinimumCountToCollate = 6;
     if (!self.showSections) {
         return nil;
     }
-    
+
     if (self.useCollation) {
         return self.collation.sectionIndexTitles;
     } else {
@@ -517,22 +518,22 @@ static const NSInteger kMinimumCountToCollate = 6;
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell<FBGraphObjectTableCell>* cell = [self cellWithTableView:tableView];
-    
+    FBGraphObjectTableCell *cell = [self cellWithTableView:tableView];
+
     if ([self isActivityIndicatorIndexPath:indexPath]) {
         cell.picture = nil;
         cell.subtitle = nil;
         cell.title = nil;
         cell.accessoryType = UITableViewCellAccessoryNone;
         cell.selected = NO;
-        
+
         [cell startAnimatingActivityIndicator];
-        
+
         [self.dataNeededDelegate graphObjectTableDataSourceNeedsData:self
                                                 triggeredByIndexPath:indexPath];
     } else {
         FBGraphObject *item = [self itemAtIndexPath:indexPath];
-        
+
         // This is a no-op if it doesn't have an activity indicator.
         [cell stopAnimatingActivityIndicator];
         if (item) {
@@ -541,24 +542,24 @@ static const NSInteger kMinimumCountToCollate = 6;
             } else {
                 cell.picture = nil;
             }
-            
+
             if (self.itemTitleSuffixEnabled) {
                 cell.titleSuffix = [self.controllerDelegate graphObjectTableDataSource:self
                                                                      titleSuffixOfItem:item];
             } else {
                 cell.titleSuffix = nil;
             }
-            
+
             if (self.itemSubtitleEnabled) {
                 cell.subtitle = [self.controllerDelegate graphObjectTableDataSource:self
                                                                      subtitleOfItem:item];
             } else {
                 cell.subtitle = nil;
             }
-            
+
             cell.title = [self.controllerDelegate graphObjectTableDataSource:self
                                                                  titleOfItem:item];
-            
+
             if ([self.selectionDelegate graphObjectTableDataSource:self
                                              selectionIncludesItem:item]) {
                 cell.accessoryType = UITableViewCellAccessoryCheckmark;
@@ -567,7 +568,7 @@ static const NSInteger kMinimumCountToCollate = 6;
                 cell.accessoryType = UITableViewCellAccessoryNone;
                 cell.selected = NO;
             }
-            
+
             if ([self.controllerDelegate respondsToSelector:@selector(graphObjectTableDataSource:customizeTableCell:ofItem:)]) {
                 [self.controllerDelegate graphObjectTableDataSource:self
                                                  customizeTableCell:cell
@@ -581,7 +582,7 @@ static const NSInteger kMinimumCountToCollate = 6;
             cell.selected = NO;
         }
     }
-    
+
     return cell;
 }
 
