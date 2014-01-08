@@ -26,7 +26,6 @@
 
 @interface FBGraphObjectTableDataSource : NSObject<UITableViewDataSource>
 
-@property (nonatomic, retain) NSArray *data;
 @property (nonatomic, retain) UIImage *defaultPicture;
 @property (nonatomic, assign) id<FBGraphObjectViewControllerDelegate> controllerDelegate;
 @property (nonatomic, copy) NSString *groupByField;
