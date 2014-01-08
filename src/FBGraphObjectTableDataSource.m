@@ -270,8 +270,8 @@ static const NSInteger kMinimumCountToCollate = 6;
 - (UITableViewCell<FBGraphObjectTableCell>*)cellWithTableView:(UITableView *)tableView
 {
     static NSString * const cellKey = @"fbTableCell";
-    FBGraphObjectTableCell *cell =
-    (FBGraphObjectTableCell*)[tableView dequeueReusableCellWithIdentifier:cellKey];
+    UITableViewCell<FBGraphObjectTableCell> *cell =
+    (UITableViewCell<FBGraphObjectTableCell>*)[tableView dequeueReusableCellWithIdentifier:cellKey];
   
     if (!cell && [self.controllerDelegate respondsToSelector:@selector(graphObjectTableDataSource:cellWithReuseIdentifier:)]) {
         cell = [self.controllerDelegate graphObjectTableDataSource:self cellWithReuseIdentifier:cellKey];
@@ -518,7 +518,7 @@ static const NSInteger kMinimumCountToCollate = 6;
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    FBGraphObjectTableCell *cell = [self cellWithTableView:tableView];
+    UITableViewCell<FBGraphObjectTableCell> *cell = [self cellWithTableView:tableView];
 
     if ([self isActivityIndicatorIndexPath:indexPath]) {
         cell.picture = nil;

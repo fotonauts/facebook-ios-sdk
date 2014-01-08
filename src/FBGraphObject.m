@@ -289,7 +289,6 @@ typedef enum _SelectorInferredImplType {
     // we expose `userId` and `placeId` but the internal key representation is `id`
     if ([key isEqualToString:@"userID"] || [key isEqualToString:@"placeID"]) {
         key = @"id";
-        NSLog(@"---------- test %@ %@", self.class, key);
     }
     return [self graphObjectifyAtKey:key];
 }
