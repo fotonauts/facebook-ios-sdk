@@ -35,7 +35,7 @@ static const NSInteger kMinimumCountToCollate = 6;
 @property (nonatomic, assign) BOOL showSections;
 
 - (BOOL)filterIncludesItem:(FBGraphObject *)item;
-- (UITableViewCell<FBGraphObjectTableCell>*)cellWithTableView:(UITableView *)tableView;
+- (FBGraphObjectTableCell *)cellWithTableView:(UITableView *)tableView;
 - (NSString *)indexKeyOfItem:(FBGraphObject *)item;
 - (UIImage *)tableView:(UITableView *)tableView imageForItem:(FBGraphObject *)item;
 - (void)addOrRemovePendingConnection:(FBURLConnection *)connection;
@@ -250,7 +250,7 @@ static const NSInteger kMinimumCountToCollate = 6;
     [self setSortingByFields:[NSArray arrayWithObject:fieldName] ascending:ascending];
 }
 
-- (UITableViewCell<FBGraphObjectTableCell>*)cellWithTableView:(UITableView *)tableView
+- (FBGraphObjectTableCell *)cellWithTableView:(UITableView *)tableView
 {
     static NSString *const cellKey = @"fbTableCell";
     FBGraphObjectTableCell *cell =
@@ -501,7 +501,7 @@ static const NSInteger kMinimumCountToCollate = 6;
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell<FBGraphObjectTableCell> *cell = [self cellWithTableView:tableView];
+    FBGraphObjectTableCell *cell = [self cellWithTableView:tableView];
 
     if ([self isActivityIndicatorIndexPath:indexPath]) {
         cell.picture = nil;
